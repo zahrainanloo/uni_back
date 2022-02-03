@@ -29,6 +29,7 @@ Route::group(['prefix' => 'lessons'], function () {
         Route::get('/', 'QuestionController@getAllByLessonId');
         Route::post('/', 'QuestionController@create')->middleware('auth');
         Route::put('/{questionId}/accept', 'QuestionController@accept')->middleware('TeacherRole');
+        Route::put('/{questionId}/notaccept', 'QuestionController@notaccept')->middleware('TeacherRole');
 
         ######################### Answers ########################
         Route::group(['prefix' => '/{questionId}/answers'], function () {

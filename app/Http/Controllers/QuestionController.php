@@ -46,13 +46,32 @@ class QuestionController extends Controller
         }else{
             Lesson::where('id', $id)->where('teacher_id', auth()->id())->firstOrFail();
         }
-        $question = Question::where('id', $questionId)
-            ->firstOrFail();
+        $question = Question::where('id', $questionId);
         $question->update([
             'is_accepted' => 1
         ]);
         return $this->respondWithTemplate(true, [], 'تایید شد');
     }
+
+    function notaccept($id, $questionId)
+    {
+        if (Auth::user()->role == 'admin')
+        {
+            Lesson::where('id', $id)->firstOrFail();
+        }else{
+            Lesson::where('id', $id)->where('teacher_id', auth()->id())->firstOrFail();
+        }
+        $question = Question::where('id', $questionId);
+
+        $question->update([
+            'is_accepted' => 2
+        ]);
+        return $this->respondWithTemplate(true, [], 'عدم تایید شد');
+    }
+
+    
+
+
     function getAllQuestions(Request $request)
     {
         $questions = Question::with('user')
